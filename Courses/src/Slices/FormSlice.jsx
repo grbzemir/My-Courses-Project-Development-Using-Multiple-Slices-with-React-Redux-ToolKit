@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { addCourse } from '../Slices/CourseSlice'; // addCourse action'ı import ediliyor
 
 const formSlice = createSlice({
     name: 'form',
@@ -8,27 +8,25 @@ const formSlice = createSlice({
         description: '',
         cost: 0,
     },
-    reducers:
-    {
+    reducers: {
         changeName(state, action) {
             state.name = action.payload;
         },
-
         changeDescription(state, action) {
-            state.name = action.payload;
+            state.description = action.payload;
         },
-
-
         changeCost(state, action) {
-            state.name = action.payload;
+            state.cost = action.payload;
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(addCourse, (state, action) => {
+            state.name = '';
+            state.description = '';
+            state.cost = 0;
+        });
     }
-
 });
 
-export const { changeName } = formSlice.actions;
-export const { changeDescription } = formSlice.actions;
-export const { changeCost } = formSlice.actions;
+export const { changeName, changeDescription, changeCost } = formSlice.actions;
 export const formReducer = formSlice.reducer;
-
-
