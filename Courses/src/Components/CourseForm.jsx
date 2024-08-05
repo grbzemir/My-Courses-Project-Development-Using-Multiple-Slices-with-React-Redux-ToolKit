@@ -1,41 +1,60 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { changeName, changeCost, changeDescription } from '../Slices/FormSlice';
 
 function CourseForm() {
+    const dispatch = useDispatch();
     const { name, description, cost } = useSelector((state) => {
         return {
             name: state.form.name,
             description: state.form.description,
-            cost: state.form.cost
+            cost: state.form.cost,
         };
     });
-
     console.log(name, description, cost);
-
     return (
         <div className="courseForm panel">
             <h4 className="subtitle is-3">Kurs Ekle</h4>
             <form>
                 <div className="field-group">
                     <div className="field">
-                        <label className="label">Kurs Adı</label>
-                        <input className="input is-expanded" value={name} readOnly />
+                        <label className="label">Ad</label>
+                        <input
+                            className="input is-expanded"
+                            onChange={(event) => {
+                                dispatch(changeName(event.target.value));
+                            }}
+                            value={name}
+                        />
                     </div>
                     <div className="field">
                         <label className="label">Açıklama</label>
-                        <input className="input is-expanded" value={description} readOnly />
+                        <textarea
+                            className="input is-expanded"
+                            onChange={(event) => {
+                                dispatch(changeDescription(event.target.value));
+                            }}
+                            value={description}
+                        />
                     </div>
                     <div className="field">
                         <label className="label">Fiyat</label>
-                        <input className="input is-expanded" type="number" value={cost} readOnly />
+                        <input
+                            className="input is-expanded"
+                            onChange={(event) => {
+                                dispatch(changeCost(parseInt(event.target.value)));
+                            }}
+                            type="number"
+                            value={cost}
+                        />
                     </div>
                 </div>
                 <div className="field">
-                    <button className='button is-primary'>Kaydet</button>
+                    <button className="button is-primary">Kaydet</button>
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
-export default CourseForm
+export default CourseForm;
